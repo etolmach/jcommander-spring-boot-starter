@@ -86,7 +86,7 @@ public class DefaultJCommandExecutor implements JCommandExecutor {
      */
     private Object getGlobalBean(Parameter parameter) {
         Qualifier qualifier = parameter.getAnnotation(Qualifier.class);
-        Class<?> parameterClass = parameter.getClass();
+        Class<?> parameterClass = parameter.getType();
         return qualifier == null ? ctx.getBean(parameterClass) : ctx.getBeansOfType(parameterClass).get(qualifier.value());
     }
 
