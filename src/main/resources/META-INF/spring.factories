@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.etolmach.spring.jcommander.config.JCommanderAutoConfiguration
