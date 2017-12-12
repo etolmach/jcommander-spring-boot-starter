@@ -6,11 +6,15 @@ import com.etolmach.spring.jcommander.annotation.CommandController;
 import com.etolmach.spring.jcommander.annotation.CommandHandler;
 import com.etolmach.spring.jcommander.exception.HandlerNotFoundException;
 import com.etolmach.spring.jcommander.exception.MultipleHandlersFoundException;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,12 +27,17 @@ import java.util.Map;
 
 @Component
 @ConditionalOnSingleCandidate(JCommandHandlerContext.class)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultJCommandHandlerContext implements JCommandHandlerContext {
 
+    @Getter
     private Map<String, JCommandHandler> handlers = new HashMap<>();
 
-    @Autowired
-    public DefaultJCommandHandlerContext(ApplicationContext context) {
+    @NonNull
+    private final ApplicationContext context;
+
+    @PostConstruct
+    public void init() {
         context.getBeansWithAnnotation(CommandController.class)
                 .values().stream()
                 .filter(this::isControllerBean)

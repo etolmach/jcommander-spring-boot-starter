@@ -85,8 +85,8 @@ jcommander.commandline.runner.enabled=false
 - 0.4 - Added support of @CommandParameter
 - 0.5 - Improved exception management
 - 0.6 - Added documentation
-- 0.7 - (in-progress) Improved property management
-- 0.8 - (planned) Unit tests
+- 0.7 - (in-progress) Unit tests
+- 0.8 - (planned) Improved property management
     
 **Requirements**
 - Java 8

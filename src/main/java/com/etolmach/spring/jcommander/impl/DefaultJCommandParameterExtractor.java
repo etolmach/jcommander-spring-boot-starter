@@ -34,7 +34,7 @@ public class DefaultJCommandParameterExtractor implements JCommandParameterExtra
     /**
      * Get field by parameter name and and class (with caching)
      */
-    private Field getField(String parameterName, Class<?> parameterObjectClass) {
+    protected Field getField(String parameterName, Class<?> parameterObjectClass) {
         Map<String, Field> fieldMap = getFieldMap(parameterObjectClass);
         Field field = fieldMap.get(parameterName);
         if (field == null) {
