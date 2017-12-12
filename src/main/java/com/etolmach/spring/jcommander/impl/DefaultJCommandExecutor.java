@@ -3,6 +3,8 @@ package com.etolmach.spring.jcommander.impl;
 import com.etolmach.spring.jcommander.*;
 import com.etolmach.spring.jcommander.annotation.CommandParameter;
 import com.etolmach.spring.jcommander.exception.CannotInvokeCommandHandlerException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
@@ -18,16 +20,17 @@ import java.lang.reflect.Parameter;
 
 @Component
 @ConditionalOnSingleCandidate(JCommandExecutor.class)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultJCommandExecutor implements JCommandExecutor {
 
-    @Autowired
-    private JCommandHandlerContext commandHandlerContext;
+    @NonNull
+    private final JCommandHandlerContext commandHandlerContext;
 
-    @Autowired
-    private JCommandParameterExtractor parameterExtractor;
+    @NonNull
+    private final JCommandParameterExtractor parameterExtractor;
 
-    @Autowired
-    private ApplicationContext ctx;
+    @NonNull
+    private final ApplicationContext appCtx;
 
     @Override
     public void execute(JCommandWrapper command) {
@@ -87,7 +90,7 @@ public class DefaultJCommandExecutor implements JCommandExecutor {
     private Object getGlobalBean(Parameter parameter) {
         Qualifier qualifier = parameter.getAnnotation(Qualifier.class);
         Class<?> parameterClass = parameter.getType();
-        return qualifier == null ? ctx.getBean(parameterClass) : ctx.getBeansOfType(parameterClass).get(qualifier.value());
+        return qualifier == null ? appCtx.getBean(parameterClass) : appCtx.getBeansOfType(parameterClass).get(qualifier.value());
     }
 
 }
