@@ -2,8 +2,7 @@ package com.etolmach.spring.jcommander.impl;
 
 import com.etolmach.spring.jcommander.JCommandHandler;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import java.lang.reflect.Method;
 
@@ -11,9 +10,8 @@ import java.lang.reflect.Method;
  * @author etolmach
  */
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public class DefaultJCommandHandler implements JCommandHandler {
 
     private Object controller;
