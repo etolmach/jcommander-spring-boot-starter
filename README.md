@@ -1,6 +1,6 @@
 # JCommander integration with SpringBoot
 
-JCommander Spring-Boot-Starter will help you to use JCommander with ease.
+JCommander Spring-Boot-Starter will help you to use [JCommander](http://jcommander.org) with ease.
 
 **Hello World**
 
@@ -46,7 +46,7 @@ JCommander Spring-Boot-Starter will help you to use JCommander with ease.
             @CommandParameter(name = "-name") String name,
             @CommandParameter(name = "-lang") String language
         ) {  
-            String template = null;
+            String template;
             switch (language){  
                 case "es":
                     template = ES_TEMPLATE;
@@ -64,7 +64,7 @@ JCommander Spring-Boot-Starter will help you to use JCommander with ease.
     ```
 4. Build and run
     ```
-    java -jar target/hello-world-0.0.1-SNAPSHOT.jar -name=Jack -lang=es
+    java -jar target/hello-world-0.0.1-SNAPSHOT.jar greeting -name=Jack -lang=es
     ```
 5. Output
     ```
@@ -85,8 +85,7 @@ jcommander.commandline.runner.enabled=false
 - 0.4 - Added support of @CommandParameter
 - 0.5 - Improved exception management
 - 0.6 - Added documentation
-- 0.7 - (in-progress) Unit tests
-- 0.8 - (planned) Improved property management
+- 0.7 - Unit tests
     
 **Requirements**
 - Java 8
