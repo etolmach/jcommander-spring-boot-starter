@@ -4,8 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.etolmach.spring.jcommander.JCommandParameterBeanFactory;
 import com.etolmach.spring.jcommander.JCommandParser;
 import com.etolmach.spring.jcommander.JCommandWrapper;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +15,10 @@ import java.util.Map;
  */
 
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultJCommandParser implements JCommandParser {
 
-    @NonNull
-    private final JCommandParameterBeanFactory parameterBeanFactory;
+    @Setter(onMethod = @__(@Autowired))
+    private JCommandParameterBeanFactory parameterBeanFactory;
 
     @Override
     public JCommandWrapper parse(String[] args) {
