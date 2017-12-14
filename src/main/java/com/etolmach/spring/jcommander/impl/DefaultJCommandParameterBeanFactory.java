@@ -4,8 +4,7 @@ import com.beust.jcommander.Parameters;
 import com.etolmach.spring.jcommander.JCommandParameterBeanFactory;
 import com.etolmach.spring.jcommander.exception.CannotInstantiateParameterObjectException;
 import com.etolmach.spring.jcommander.exception.CommandParametersBeanNotFoundException;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.ApplicationContext;
@@ -22,13 +21,13 @@ import java.util.stream.Collectors;
 
 @Component
 @ConditionalOnSingleCandidate(JCommandParameterBeanFactory.class)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultJCommandParameterBeanFactory implements JCommandParameterBeanFactory {
 
     private final Map<String, Class<?>> commandParameterBeanClasses = new HashMap<>();
 
-    @NonNull
-    private final ApplicationContext applicationContext;
+    @Setter(onMethod = @__(@Autowired))
+    private ApplicationContext applicationContext;
 
     @PostConstruct
     public void init() {
