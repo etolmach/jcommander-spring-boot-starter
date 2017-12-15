@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultJCommandParserTest {
 
-    public static final String[] ARGS = {TestCommandParameters1.COMMAND_NAME_1};
+    private static final String[] ARGS = {TestCommandParameters1.COMMAND_NAME_1};
 
     private DefaultJCommandParser parser;
 
@@ -34,37 +34,34 @@ public class DefaultJCommandParserTest {
     @Mock
     private JCommandParameterBeanFactory parameterBeanFactory;
     @Mock
-    private Map<String, Object> parameterBeans;
-    @Mock
     private JCommander.Builder builder;
     @Mock
     private JCommander jcommander;
 
-    private String[] args = {};
-
     @Before
-    public void setUp() throws Exception {
-        parser = spy(new DefaultJCommandParser(parameterBeanFactory));
+    public void setUp() {
+        parser = spy(new DefaultJCommandParser());
+        parser.setParameterBeanFactory(parameterBeanFactory);
         doReturn(builder).when(parser).getBuilder();
     }
 
     @Test
     public void parse() {
         Map<String, Object> parameterBeans = new HashMap<>();
-        parameterBeans.put(commandParametersBean1.COMMAND_NAME_1, commandParametersBean1);
-        parameterBeans.put(commandParametersBean2.COMMAND_NAME_1, commandParametersBean2);
+        parameterBeans.put(TestCommandParameters1.COMMAND_NAME_1, commandParametersBean1);
+        parameterBeans.put(TestCommandParameters2.COMMAND_NAME_1, commandParametersBean2);
 
         when(parameterBeanFactory.createForAll()).thenReturn(parameterBeans);
 
         when(builder.build()).thenReturn(jcommander);
-        when(jcommander.getParsedCommand()).thenReturn(commandParametersBean1.COMMAND_NAME_1);
+        when(jcommander.getParsedCommand()).thenReturn(TestCommandParameters1.COMMAND_NAME_1);
 
         JCommandWrapper commandWrapper = parser.parse(ARGS);
 
         verify(builder).addCommand(commandParametersBean1);
         verify(builder).addCommand(commandParametersBean2);
 
-        assertEquals(commandParametersBean1.COMMAND_NAME_1, commandWrapper.getName());
+        assertEquals(TestCommandParameters1.COMMAND_NAME_1, commandWrapper.getName());
         assertEquals(commandParametersBean1, commandWrapper.getParameterBean());
     }
 }

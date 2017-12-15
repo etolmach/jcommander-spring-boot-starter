@@ -20,7 +20,6 @@ public class DefaultJCommandLineExecutorTest {
 
     private static final String[] ARGS = {"some", "-arg:values"};
 
-
     private DefaultJCommandLineExecutor commandLineExecutor;
 
     @Mock
@@ -31,8 +30,10 @@ public class DefaultJCommandLineExecutorTest {
     private JCommandWrapper commandWrapper;
 
     @Before
-    public void setUp() throws Exception {
-        commandLineExecutor = new DefaultJCommandLineExecutor(parser, commandExecutor);
+    public void setUp() {
+        commandLineExecutor = new DefaultJCommandLineExecutor();
+        commandLineExecutor.setParser(parser);
+        commandLineExecutor.setCommandExecutor(commandExecutor);
     }
 
     @Test
