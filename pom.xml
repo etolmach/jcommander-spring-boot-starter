@@ -5,7 +5,7 @@
 
     <groupId>com.etolmach.spring.boot</groupId>
     <artifactId>jcommander-spring-boot-starter</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <version>0.8</version>
     <packaging>jar</packaging>
 
     <properties>
