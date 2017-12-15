@@ -8,7 +8,9 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author etolmach
@@ -23,7 +25,9 @@ public class DefaultJCommandParser implements JCommandParser {
     @Override
     public JCommandWrapper parse(String[] args) {
         Map<String, Object> parameterObjects = parameterBeanFactory.createForAll();
-        JCommander parser = buildParser(parameterObjects);
+        Set<Object> uniqueParameterObjects = new HashSet<>(parameterObjects.values());
+
+        JCommander parser = buildParser(uniqueParameterObjects);
         parser.parse(args);
 
         String commandName = parser.getParsedCommand();
@@ -35,11 +39,9 @@ public class DefaultJCommandParser implements JCommandParser {
     /**
      * Build vanilla JCommander parser with unique parameter objects (thread safes)
      */
-    private JCommander buildParser(Map<String, Object> parameterObjects) {
+    private JCommander buildParser(Set<Object> parameterObjects) {
         JCommander.Builder builder = getBuilder();
-        parameterObjects
-                .values()
-                .forEach(builder::addCommand);
+        parameterObjects.forEach(builder::addCommand);
         return builder.build();
     }
 

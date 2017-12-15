@@ -2,8 +2,7 @@ package com.etolmach.spring.jcommander.impl;
 
 import com.beust.jcommander.Parameters;
 import com.etolmach.spring.jcommander.JCommandParameterBeanFactory;
-import com.etolmach.spring.jcommander.exception.CannotInstantiateParameterObjectException;
-import com.etolmach.spring.jcommander.exception.CommandParametersBeanNotFoundException;
+import com.etolmach.spring.jcommander.exception.CannotInstantiateParameterBeanException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author etolmach
@@ -21,10 +19,9 @@ import java.util.stream.Collectors;
 
 @Component
 @ConditionalOnSingleCandidate(JCommandParameterBeanFactory.class)
-//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultJCommandParameterBeanFactory implements JCommandParameterBeanFactory {
 
-    private final Map<String, Class<?>> commandParameterBeanClasses = new HashMap<>();
+    private final Map<Class<?>, String[]> parameterBeanDefinitions = new HashMap<>();
 
     @Setter(onMethod = @__(@Autowired))
     private ApplicationContext applicationContext;
@@ -36,44 +33,27 @@ public class DefaultJCommandParameterBeanFactory implements JCommandParameterBea
             Class<?> beanClass = bean.getClass();
             Parameters annotation = beanClass.getAnnotation(Parameters.class);
             if (annotation != null) {
-                for (String commandName : annotation.commandNames()) {
-                    commandParameterBeanClasses.put(commandName, beanClass);
-                }
+                parameterBeanDefinitions.put(beanClass, annotation.commandNames());
             }
         }
     }
 
     @Override
-    public Object createFor(String command) {
-        Class<?> clazz = commandParameterBeanClasses.get(command);
-        if (clazz == null) {
-            throw new CommandParametersBeanNotFoundException(command);
-        }
-        return newInstance(command, clazz);
-    }
-
-    @Override
     public Map<String, Object> createForAll() {
-        return commandParameterBeanClasses
-                .entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, this::newInstance));
-    }
+        Map<String, Object> parameterBeans = new HashMap<>();
 
-    /**
-     * Instantiate new parameter bean by map entry
-     */
-    private Object newInstance(Map.Entry<String, Class<?>> entry) {
-        return newInstance(entry.getKey(), entry.getValue());
-    }
+        parameterBeanDefinitions.forEach((clazz, commandNames) -> {
+            try {
+                Object parameterBean = clazz.newInstance();
+                for (String commandName : commandNames) {
+                    parameterBeans.put(commandName, parameterBean);
+                }
+            } catch (ReflectiveOperationException e) {
+                throw new CannotInstantiateParameterBeanException(clazz, e);
+            }
+        });
 
-    /**
-     * Instantiate new parameter bean
-     */
-    private Object newInstance(String name, Class<?> clazz) {
-        try {
-            return clazz.newInstance();
-        } catch (ReflectiveOperationException e) {
-            throw new CannotInstantiateParameterObjectException(name, clazz, e);
-        }
+        return parameterBeans;
     }
+    
 }

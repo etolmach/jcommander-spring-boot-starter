@@ -3,8 +3,6 @@ package com.etolmach.spring.jcommander.impl;
 import com.etolmach.spring.jcommander.TestCommandParameters1;
 import com.etolmach.spring.jcommander.TestCommandParameters2;
 import com.etolmach.spring.jcommander.TestCommandParameters3;
-import com.etolmach.spring.jcommander.exception.CannotInstantiateParameterObjectException;
-import com.etolmach.spring.jcommander.exception.CommandParametersBeanNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 
-import java.lang.reflect.Constructor;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +22,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultJCommandParameterBeanFactoryTest {
 
-    private static final String UNDEFINED_COMMAND = "undefined-command";
     private static final String BEAN_1 = "bean-1";
     private static final String BEAN_2 = "bean-2";
     private static final String BEAN_3 = "bean-3";
@@ -48,8 +44,9 @@ public class DefaultJCommandParameterBeanFactoryTest {
 
 
     @Before
-    public void setUp() throws Exception {
-        factory = new DefaultJCommandParameterBeanFactory(applicationContext);
+    public void setUp() {
+        factory = new DefaultJCommandParameterBeanFactory();
+        factory.setApplicationContext(applicationContext);
     }
 
     @Test
@@ -86,46 +83,23 @@ public class DefaultJCommandParameterBeanFactoryTest {
 
         Map<String, Object> allCommandParameterBeans = factory.createForAll();
 
-        // TODO:
-        assertEquals(4, allCommandParameterBeans.size());
-//        assertEquals(parameterBean1, allCommandParameterBeans.get(parameterBean1.COMMAND_NAME_1));
-//        assertEquals(parameterBean1, allCommandParameterBeans.get(parameterBean1.COMMAND_NAME_2));
-//        assertEquals(parameterBean2, allCommandParameterBeans.get(parameterBean2.COMMAND_NAME_1));
-//        assertEquals(parameterBean2, allCommandParameterBeans.get(parameterBean2.COMMAND_NAME_2));
-    }
+        assertEquals(5, allCommandParameterBeans.size());
 
+        Object parameterBeanCommand1Name1 = allCommandParameterBeans.get(TestCommandParameters1.COMMAND_NAME_1);
+        Object parameterBeanCommand1Name2 = allCommandParameterBeans.get(TestCommandParameters1.COMMAND_NAME_2);
 
-    @Test
-    public void createFor() {
-        when(applicationContext.getBeanDefinitionNames()).thenReturn(new String[]{BEAN_1, BEAN_2});
+        assertTrue(parameterBeanCommand1Name1 instanceof TestCommandParameters1);
+        assertTrue(parameterBeanCommand1Name2 instanceof TestCommandParameters1);
+        assertEquals(parameterBeanCommand1Name1, parameterBeanCommand1Name2);
 
-        when(applicationContext.getBean(BEAN_1)).thenReturn(parameterBean1);
-        when(applicationContext.getBean(BEAN_2)).thenReturn(parameterBean2);
+        Object parameterBeanCommand2Name1 = allCommandParameterBeans.get(TestCommandParameters2.COMMAND_NAME_1);
+        Object parameterBeanCommand2Name2 = allCommandParameterBeans.get(TestCommandParameters2.COMMAND_NAME_2);
+        Object parameterBeanCommand2Name3 = allCommandParameterBeans.get(TestCommandParameters2.COMMAND_NAME_3);
 
-        factory.init();
-
-        factory.createFor(parameterBean2.COMMAND_NAME_1);
-    }
-
-    @Test(expected = CannotInstantiateParameterObjectException.class)
-    public void createFor_cannotInstantiate() {
-        when(applicationContext.getBeanDefinitionNames()).thenReturn(new String[]{BEAN_1, BEAN_2, BEAN_3});
-
-        when(applicationContext.getBean(BEAN_1)).thenReturn(parameterBean1);
-        when(applicationContext.getBean(BEAN_2)).thenReturn(parameterBean2);
-        when(applicationContext.getBean(BEAN_3)).thenReturn(brokenParameterBean);
-
-        factory.init();
-
-        for (Constructor<?> constructor : parameterBean2.getClass().getConstructors()) {
-            constructor.setAccessible(false);
-        }
-
-        factory.createFor(brokenParameterBean.COMMAND_NAME);
-    }
-
-    @Test(expected = CommandParametersBeanNotFoundException.class)
-    public void createFor_undefinedCommand() {
-        factory.createFor(UNDEFINED_COMMAND);
+        assertTrue(parameterBeanCommand2Name1 instanceof TestCommandParameters2);
+        assertTrue(parameterBeanCommand2Name2 instanceof TestCommandParameters2);
+        assertTrue(parameterBeanCommand2Name3 instanceof TestCommandParameters2);
+        assertEquals(parameterBeanCommand2Name1, parameterBeanCommand2Name2);
+        assertEquals(parameterBeanCommand2Name1, parameterBeanCommand2Name3);
     }
 }
