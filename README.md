@@ -9,7 +9,7 @@
 
 JCommander Spring-Boot-Starter will help you to use [JCommander](http://jcommander.org) with ease.
 
-For more detailed explanation and code samples please consult the [home page](jcommander.spring.etolmach.com).
+For more detailed explanation and code samples please consult the [home page](http://jcommander.spring.etolmach.com).
 
 **Hello World**
 
