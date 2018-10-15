@@ -12,13 +12,40 @@
         <java.version>1.8</java.version>
         <lombok.version>1.16.18</lombok.version>
         <jcommander.version>1.72</jcommander.version>
-        <spring.boot.version>2.0.0.M6</spring.boot.version>
+        <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
     </properties>
+
+    <name>JCommander-Spring-Boot-Starter</name>
+    <description>JCommander integration with SpringBoot</description>
+    <url>http://jcommander.spring.etolmach.com/</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://github.com/etolmach/jcommander-spring-boot-starter/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/etolmach/jcommander-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:ssh://github.com:etolmach/jcommander-spring-boot-starter.git</developerConnection>
+        <url>http://github.com/etolmach/jcommander-spring-boot-starter/tree/master</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Evgeniy Tolmach</name>
+            <email>evgeniy.tolmach@gmail.com</email>
+            <organization>JCommander-Spring-Boot-Starter</organization>
+            <organizationUrl>http://jcommander.spring.etolmach.com/</organizationUrl>
+        </developer>
+    </developers>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.M6</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -85,28 +112,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>http://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <url>http://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <url>http://repo.spring.io/snapshot</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>http://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
