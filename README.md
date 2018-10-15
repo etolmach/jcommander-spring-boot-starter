@@ -1,6 +1,15 @@
 # JCommander integration with SpringBoot
+[![Master Branch Build Status](https://travis-ci.org/etolmach/jcommander-spring-boot-starter.svg?branch=master)](https://travis-ci.org/etolmach/jcommander-spring-boot-starter/builds) 
+[![codecov](https://codecov.io/gh/etolmach/jcommander-spring-boot-starter/branch/master/graph/badge.svg)](https://codecov.io/gh/etolmach/jcommander-spring-boot-starter)
+[![Requirements Status](https://requires.io/github/etolmach/jcommander-spring-boot-starter/requirements.svg?branch=master)](https://requires.io/github/etolmach/jcommander-spring-boot-starter/requirements/?branch=master)
+
+> "Because life is too short to parse command line parameters"
+>
+> *-Cédric Beust*
 
 JCommander Spring-Boot-Starter will help you to use [JCommander](http://jcommander.org) with ease.
+
+For more detailed explanation and code samples please consult the [home page](jcommander.spring.etolmach.com).
 
 **Hello World**
 
@@ -64,7 +73,7 @@ JCommander Spring-Boot-Starter will help you to use [JCommander](http://jcommand
     ```
 4. Build and run
     ```
-    java -jar target/hello-world-0.0.1-SNAPSHOT.jar greeting -name=Jack -lang=es
+    java -jar hello.jar greeting -name=Jack -lang=es
     ```
 5. Output
     ```
@@ -75,18 +84,9 @@ JCommander Spring-Boot-Starter will help you to use [JCommander](http://jcommand
 
 By default the starter automatically listens for command-line arguments on application start-up. You can disable this option by setting parameter:
 ```
-jcommander.commandline.runner.enabled=false    
+jcommander.runner.enabled=false    
 ```
-
-**Versions**
-- 0.1 - PoC 
-- 0.2 - Added conditional auto-configuration
-- 0.3 - Added thread safety
-- 0.4 - Added support of @CommandParameter
-- 0.5 - Improved exception management
-- 0.6 - Added documentation
-- 0.7 - Unit tests
     
 **Requirements**
-- Java 8
-- SpringBoot 2.0.0.M6
+- JDK 1.8+
+- SpringBoot 2+
