@@ -1,4 +1,5 @@
 # JCommander integration with SpringBoot
+[![Maven Central](https://img.shields.io/maven-central/v/com.etolmach.spring/jcommander-spring-boot-starter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.etolmach.spring%22%20AND%20a:%22jcommander-spring-boot-starter%22)
 [![Master Branch Build Status](https://travis-ci.org/etolmach/jcommander-spring-boot-starter.svg?branch=master)](https://travis-ci.org/etolmach/jcommander-spring-boot-starter/builds) 
 [![codecov](https://codecov.io/gh/etolmach/jcommander-spring-boot-starter/branch/master/graph/badge.svg)](https://codecov.io/gh/etolmach/jcommander-spring-boot-starter)
 [![Requirements Status](https://requires.io/github/etolmach/jcommander-spring-boot-starter/requirements.svg?branch=master)](https://requires.io/github/etolmach/jcommander-spring-boot-starter/requirements/?branch=master)
